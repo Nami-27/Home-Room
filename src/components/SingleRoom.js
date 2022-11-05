@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import { FaLightbulb } from "react-icons/fa";
+import { FaFan, FaLightbulb } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useFanData } from "../hooks/useFan";
-import { useLightData } from "../hooks/useLight";
+import { useLightChange, useLightData } from "../hooks/useLight";
 
 const RoomPage = () => {
   const params = useParams();
+  const [changedLight, setChangedLight] = useState();
+  const [changedFan, setChangedFan] = useState();
   const onSuccess = (data) => {
     console.log("single", { data });
   };
@@ -14,14 +17,30 @@ const RoomPage = () => {
     // console.log({ error });
   };
 
+  const handleLightSwitch = (id, event) => {
+    let changed = bulbs?.filter((bulb) => bulb.id === id)?.[0];
+    changed["state"] = event.target.checked ? 1 : 0;
+    setChangedLight(changed);
+    mutationLight.mutate(changed);
+  };
+
+  const handleFanSwitch = (id, event) => {
+    let changed = fans?.filter((fan) => fan.id === id)?.[0];
+    changed["state"] = event.target.checked ? 1 : 0;
+    setChangedFan(changed);
+    mutationFan.mutate(changed);
+  };
+
+  const mutationLight = useLightChange(changedLight);
+
+  const mutationFan = useFanData(changedFan);
+
   const bulbs = useLightData(onSuccess, onError)?.data?.data?.filter(
     (d) => d.room == params.roomId
   );
   const fans = useFanData(onSuccess, onError)?.data?.data?.filter(
     (d) => d.room == params.roomId
   );
-
-  console.log({ bulbs, fans });
 
   return (
     <div style={{ textAlign: "center" }}>
@@ -69,7 +88,31 @@ const RoomPage = () => {
                   <input
                     type={"checkbox"}
                     defaultChecked={bulb.state}
-                    onChange={() => {}}
+                    onChange={(e) => {
+                      handleLightSwitch(bulb.id, e);
+                    }}
+                  />
+                </span>
+              </Col>
+            ))}
+          </Row>
+
+          <Row>
+            <Col xs={12}>Fans</Col>
+            {fans?.map((fan, item) => (
+              <Col xs={12} key={item} className="control-items">
+                <span>
+                  <FaFan />
+                  {item + 1}
+                </span>
+                <span>
+                  Switch{" "}
+                  <input
+                    type={"checkbox"}
+                    defaultChecked={fan?.state}
+                    onChange={(e) => {
+                      handleFanSwitch(fan?.id, e);
+                    }}
                   />
                 </span>
               </Col>

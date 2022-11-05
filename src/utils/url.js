@@ -34,10 +34,10 @@ export const addBulbs = (bulbs) => {
   return request({ url: "/bulbs", method: "post", data: bulbs });
 };
 
-export const changeLight = (roomId, change) => {
-  return request({ url: `/bulbs/${roomId}`, method: "put", data: change });
+export const changeLight = (data) => {
+  return request({ url: `/bulbs/${data?.id}`, method: "put", data });
 };
 
-export const changeFan = (roomId, change) => {
-  return request({ url: `/fans/${roomId}`, method: "put", data: change });
+export const changeFan = (data) => {
+  return request({ url: `/fans/${data?.id}`, method: "put", data });
 };
