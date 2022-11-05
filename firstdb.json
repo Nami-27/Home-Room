@@ -1,0 +1,49 @@
+{
+    "rooms": [
+      {
+        "id": 1,
+        "bulbs": 2,
+        "fans": 1
+      },
+      {
+        "id": 2,
+        "bulbs": 1,
+        "fans": 1
+      },
+      {
+        "id": 3,
+        "fans": 2,
+        "bulbs": 2
+      }
+      
+    ],
+    "bulbs": [
+      {
+        "id": 1,
+        "room": 1,
+        "state": 1
+      },
+      {
+        "id": 2,
+        "room": 1,
+        "state": 0
+      },
+      {
+        "id": 3,
+        "room": 2,
+        "state": 0
+      }
+    ],
+    "fans": [
+      {
+        "id": 1,
+        "room": 1,
+        "state": 1
+      },
+      {
+        "id": 2,
+        "room": 2,
+        "state": 0
+      }
+    ]
+  }
